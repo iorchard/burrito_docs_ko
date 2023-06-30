@@ -7,17 +7,6 @@ Burrito Offline 친절한 설치가이드
    :backlinks: none
    :depth: 2
 
-.. container:: style_red-box
-
-   .. raw:: html
-
-      <style>
-      .red-box {
-          border: 1px solid red;
-          margin: 20px 0 20px 0;
-          font-weight: normal;
-      }
-      </style>
 
 Burrito 소개
 ---------------
@@ -113,7 +102,7 @@ KeepAlived VIP     192.168.20.100    192.168.21.100
 * 모든 노드에 ansible 사용자는 sudo 권한이 있다. ansible 사용자는 clex 입니다.
 * 모든 노드는 배포 노드의 /etc/hosts에 정의되어야 한다.
 
-.. container:: red-box
+.. warning:: 주의
 
    ::
    
@@ -195,7 +184,7 @@ burrito 4개의 호스트 그룹
 
 
 
-.. container:: red-box
+.. warning:: 주의
 
    ::
    
@@ -265,7 +254,7 @@ hosts 인벤토리 파일 편집합니다.
 인벤토리 변수
 ++++++++++++++++++++++++++++
 
-.. container:: red-box
+.. warning:: 주의
 
    ::
 
@@ -493,7 +482,7 @@ openstack Horizon 대시보드에 연결할 때 사용할 openstack 관리자 �
 
    $ ./run.sh ping
 
-.. container:: red-box
+.. warning:: 주의
 
    ::
 
@@ -513,7 +502,7 @@ playbook이 실행될 때마다 PLAY RECAP 에 실패(fail) 작업이 없어야 
    control2                   : ok=19   changed=8    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
    control3                   : ok=19   changed=8    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
 
-.. container:: red-box
+.. warning:: 주의
 
    ::
 
@@ -644,7 +633,7 @@ keepalived 및 haproxy가 control 노드에서 실행 중인지 확인합니다.
 Step.3 Ceph
 +++++++++++
 
-.. container:: red-box
+.. warning:: 주의
 
    ::
 
@@ -762,7 +751,7 @@ k8s playbook을 실행합니다.
 Step.5 Netapp
 ++++++++++++++++
 
-.. container:: red-box
+.. warning:: 주의
 
    ::
 
@@ -825,7 +814,7 @@ patch playbook 실행합니다.
 
 kube-system namespace에서 모든 pod가 실행중이고 running 상태인지 확인합니다.
 
-.. container:: red-box
+.. warning:: 주의
 
    ::
 
@@ -892,7 +881,7 @@ registry playbook을 실행합니다.
 
 이미지가 local registry에 있는지 확인합니다.
 
-.. container:: red-box
+.. warning:: 주의
 
    ::
 
