@@ -2,37 +2,17 @@
 Burrito Offline 친절한 설치가이드
 =======================================
 
-.. contents::
-   :local:
-   :backlinks: none
-   :depth: 2
+
+.. This content will be ignored during compilation
+   .. contents::
+      :local:
+      :backlinks: none
+      :depth: 2
 
 
-Burrito 소개
----------------
-
-Burrito는 보안 강화된 Kubernetes 컨테이너 위에 OpenStack 가상화 플랫폼입니다.
-
-아래는 Burrito에 포함된 오픈 소스 소프트웨어 설명입니다.
-
-Open Source SW
-++++++++++++++++++++
-
-* ceph-ansible: ceph 분산 저장 시스템을 설치하기 위해 사용
-
-* kubespray: Kubernetes 클러스터를 설치하기 위해 사용
-
-* openstack-helm: Kubernetes 클러스터 위에 컨테이너 기반의 OpenStack 구성 요소를 설치하기 위해 사용
-
-이 가이드는 Burrito를 처음 설치하는 초보 엔지니어들을 위한 Burrito Offline 환경 가이드입니다.
-
-설치하려면 Burrito ISO 파일이 필요하므로 버전을 확인한 후 사용하세요.
-
-Burrito ISO 파일을 만들고 싶다면 여기 링크로 만들어보세요. 해당 사이트 github 소스로 만들 수 있습니다.
-(https://github.com/iorchard/burrito_iso)
 
 지원 OS
-++++++++++++++++++++
+---------------
 
 * Rocky Linux 8.x
 
@@ -196,7 +176,6 @@ burrito 4개의 호스트 그룹
 
       3. Do not edit below 아래의 내용은 건드리지 않습니다. 
 
-      4. storage 노드는 반드시 management 대역과 storage 대역 모두 기입해야 합니다.
 
 hosts 인벤토리 파일 편집합니다.
 
@@ -208,10 +187,10 @@ hosts 인벤토리 파일 편집합니다.
    control3 ip=192.168.21.103
    compute1 ip=192.168.21.104
    compute2 ip=192.168.21.105
-   storage1 ip=192.168.21.106 monitor_address=192.168.24.106 radosgw_address=192.168.24.106
-   storage2 ip=192.168.21.107 monitor_address=192.168.24.107 radosgw_address=192.168.24.107
-   storage3 ip=192.168.21.108 monitor_address=192.168.24.108 radosgw_address=192.168.24.108
-   
+   storage1 ip=192.168.21.106
+   storage2 ip=192.168.21.107
+   storage3 ip=192.168.21.108
+
    # ceph nodes
    [mons]
    storage[1:3]
@@ -982,30 +961,6 @@ local repository pod가 실행중이고 burrito namespace에서 running 상태�
 
 
 
-
-netapp,ceph 순서 확인
-^^^^^^^^^^^^^^^^^^^^^^^^^
-
-
-storage 백엔드가 순서에 맞게 설치되었는지 확인하려면 다음과 같이 확인할 수 있습니다.
-
-cinder config 파일을 찾습니다.
-
-::
-
-   $ sudo find / -name "cinder.conf" -print 2>/dev/null
-
-찾은 파일 경로로 default_volume_type과 enabled_backends 내용을 확인합니다.
-
-::
-
-   $ sudo cat 디렉토리 경로 |grep -E "default_volume_type|enabled_backends"
-
-   $ sudo cat /var/lib/kubelet/pods/b6c9ff37-c49f-408d-be81-7aa0132de820/volumes/kubernetes.io~secret/cinder-etc/cinder.conf | grep -E "default_volume_type|enabled_backends"
-      default_volume_type = netapp1
-      enabled_backends = netapp1,rbd1
-
-
 Horizon
 ----------
 
@@ -1108,6 +1063,39 @@ openstack compute 서비스 상태를 확인합니다.
 
 * 모든 서비스가 활성화되어 있어야 합니다.
 * 각 compute 노드에는 nova-compute 서비스가 있어야 합니다.
+
+
+
+netapp,ceph 순서 확인
++++++++++++++++++++++++
+
+
+cinder volume pod 접속합니다.
+
+::
+
+   root@btx-0:/# k get po -l component=volume
+   NAME                            READY   STATUS    RESTARTS   AGE
+   cinder-volume-98c8fbff6-jsrzx   1/1     Running   0          14h
+   cinder-volume-98c8fbff6-spr5x   1/1     Running   0          14h
+   cinder-volume-98c8fbff6-xvw8n   1/1     Running   0          14h
+
+
+특정 pod(cinder-volume-98c8fbff6-jsrzx)에 접속합니다.
+
+::
+
+   root@btx-0:/# k exec -it cinder-volume-98c8fbff6-jsrzx -c cinder-volume -- bash
+
+
+cinder.conf에서 default_volume_type와 enabled_backends 항목을 찾습니다.
+
+::
+
+   cinder@cinder-volume-98c8fbff6-jsrzx:/etc/cinder$ grep -E 'default_volume_type|enabled_backends' cinder.conf
+   default_volume_type = rbd1
+   enabled_backends = rbd1,netapp1
+
 
 .. _test-section:
 
