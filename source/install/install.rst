@@ -710,11 +710,11 @@ k8s playbook을 실행합니다.
 
    $ sudo kubectl get nodes
    NAME       STATUS   ROLES           AGE   VERSION
-   compute1   Ready    <none>          15m   v1.24.8
-   compute2   Ready    <none>          15m   v1.24.8
-   control1   Ready    control-plane   17m   v1.24.8
-   control2   Ready    control-plane   16m   v1.24.8
-   control3   Ready    control-plane   16m   v1.24.8
+   compute1   Ready    <none>          15m   v1.24.14
+   compute2   Ready    <none>          15m   v1.24.14
+   control1   Ready    control-plane   17m   v1.24.14
+   control2   Ready    control-plane   16m   v1.24.14
+   control3   Ready    control-plane   16m   v1.24.14
 
 
 Step.5 Netapp
