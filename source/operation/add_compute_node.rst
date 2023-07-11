@@ -11,12 +11,16 @@ compute 노드 추가
 새로운 compute node 정의
 -----------------------------
 
-bon-compute2(호스트 이름)과 IP(192.168.21.124)를 /etc/hosts에 정의합니다.::
+bon-compute2(호스트 이름)과 IP(192.168.21.124)를 /etc/hosts에 정의합니다.
+
+::
 
    $ sudo vi /etc/hosts
    192.168.21.124 bon-compute2
 
-인벤토리 호스트에 새로운 compute node를 추가합니다.::
+인벤토리 호스트에 새로운 compute node를 추가합니다.
+
+::
 
    $ diff -u hosts.bak hosts
    --- hosts.bak        2023-02-20 13:54:45.365350417 +0900
@@ -52,7 +56,9 @@ bon-compute2(호스트 이름)과 IP(192.168.21.124)를 /etc/hosts에 정의합�
     bon-compute
    +bon-compute2
 
-새로운 노드 bon-compute2 네트워크 연결을 확인합니다.::
+새로운 노드 bon-compute2 네트워크 연결을 확인합니다.
+
+::
 
    $ ./run.sh ping 
    bon-compute2 | SUCCESS => {
@@ -67,19 +73,27 @@ bon-compute2(호스트 이름)과 IP(192.168.21.124)를 /etc/hosts에 정의합�
 새로운 노드 설치
 -------------------------
 
-bon-compute2에 대한 preflight playbook 실행합니다.::
+bon-compute2에 대한 preflight playbook 실행합니다.
+
+::
 
    $ ./run.sh preflight --limit=bon-compute2
 
-ceph playbook 실행합니다.::
+ceph playbook 실행합니다.
+
+::
 
    $ ./run.sh ceph --limit=bon-compute2
 
-k8s cluster에 노드를 추가합니다.::
+k8s cluster에 노드를 추가합니다.
+
+::
 
    $ ./run.sh scale --limit=bon-compute2
 
-k8s 노드에 추가되었는지 확인합니다.::
+k8s 노드에 추가되었는지 확인합니다.
+
+::
 
    $ sudo kubectl get nodes
    NAME             STATUS   ROLES           AGE     VERSION
@@ -87,11 +101,15 @@ k8s 노드에 추가되었는지 확인합니다.::
    bon-compute2     Ready    <none>          3m39s   v1.24.8
    bon-controller   Ready    control-plane   3d15h   v1.24.8
 
-tag=k8s-burrito,novakey-burrito 설정하여 burrito playbook 실행합니다.::
+tag=k8s-burrito,novakey-burrito 설정하여 burrito playbook 실행합니다.
+
+::
 
    $ ./run.sh burrito --tags=k8s-burrito,novakey-burrito
 
-compute 노드가 추가되었는지 확인합니다.::
+compute 노드가 추가되었는지 확인합니다.
+
+::
 
    root@btx-0:/# openstack compute service list
    +--------------------------------------+----------------+---------------------------------+----------+---------+-------+----------------------------+

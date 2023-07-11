@@ -14,7 +14,7 @@ Open Source SW
 
 * openstack-helm: Kubernetes 클러스터 위에 컨테이너 기반의 OpenStack 구성 요소를 설치하기 위해 사용
 
-이 가이드는 Burrito를 처음 설치하는 초보 엔지니어들을 위한 Burrito Offline 환경 가이드입니다.
+이 가이드는 Burrito를 처음 설치하는 초보 엔지니어들을 위한 Burrito Online/Offline 설치 가이드입니다.
 
 설치하려면 Burrito ISO 파일이 필요하므로 버전을 확인한 후 사용하세요.
 
