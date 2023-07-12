@@ -1,23 +1,20 @@
 1.2.1 Aster
 ============
 
-This is the first patch in the Aster 1.2 series.
+Aster 1.2 시리즈 첫 번째 패치
 
 Notable changes
 ----------------
 
-* Modify an inventory hosts file. 
-  The monitor_address and radosgw_address variables are removed
-  to reduce human error.
-* Add the ceph-csi and k8s images to the genesis registry to avoid deadlocks
-  when shutting down and starting all control nodes.
-* Patch the ceph-csi and k8s resources to update the image url 
-  to genesis registry.
-* Fix the btx image to check the validity of the first and last ip address
-  based on the provider network cidr.
-* Fix burrito.sh script. The burrito.yml playbook is moved out of kubespray 
-  upstream repo but burrito.sh script was still looking for it 
-  in the kubespray directory.
+* 인벤토리 호스트 파일을 수정합니다. 
+  monitor_address 및 radosgw_address 변수는 인적 오류를 줄이기 위해 제거되었습니다.
+* 모든 control 노드를 종료하고 시작할 때 교착 상태가 발생하지 않도록 
+  genesis registry에 ceph-csi 및 k8s 이미지를 추가합니다.
+* ceph-csi 및 k8s 리소스를 패치하여 이미지 URL을 genesis registry로 업데이트합니다.
+* provider 네트워크 cidr을 기반으로 첫 번째 및 마지막 IP 주소의 유효성을 확인하도록 btx 이미지를 수정합니다.
+* burrito.sh 스크립트를 수정합니다. 
+  burrito.yml playbook은 kubespray upstream 리포지토리에서 이동했지만 
+  burrito.sh 스크립트는 kubespray 디렉토리에서 그것을 찾습니다.
 
 Burrito Changelog
 ------------------

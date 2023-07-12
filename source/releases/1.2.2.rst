@@ -1,0 +1,39 @@
+1.2.2 Aster
+============
+
+Aster 1.2 시리즈 두 번째 패치
+
+Notable changes
+----------------
+
+* cinder에 사용 중인 volume migration 지원을 추가합니다.
+* 인적 오류를 최소화하기 위해 preflight playbook에 체크리스트를 추가합니다.
+* Add NFS-related two paramenters in cinder.
+* cinder에 NFS 관련 두 매개변수를 추가합니다.
+  nas_secure_file_operation 및 nas_secure_file_permission을 false로 설정합니다. 
+  true로 설정하는 것을 권장하지만, true로 설정할 때 storage backend에서 추가 설정을 해주어야 합니다. 
+  그래서 기본적으로 false로 설정했습니다.
+* etcd 서비스에 높은 스케줄링 우선순위로 설정합니다.
+  Etcd는 kubernetes 클러스터의 중요한 서비스이므로 etcd 프로세스의 cpu 및 디스크 io를 더 높은 우선순위로 설정합니다.
+* calico blockSize를 kube_network_node_prefix로 설정합니다.
+* prepare.sh 스크립트를 실행할 때 config 파일 복사가 있으면 건너뜁니다.
+
+Burrito Changelog
+------------------
+
+* fix: add burrito.openstack role variables in defaults/main.yml; (jijisa@iorchard.net)
+* define nas_secure_* parameters in netapp_vars.yml.tpl and use them in cinder.yml.j2; (jijisa@iorchard.net)
+* feature: skip copying config files if exist.; (jijisa@iorchard.net)
+* fix a bug in kubespray cni-calico.conflist.j2; It should check the calico_ipam_host_local boolean value; (jijisa@iorchard.net)
+* feature: set calico blockSize to kube_network_node_prefix; (jijisa@iorchard.net)
+* feature: add burrito version in VERSIONS when create_tarball script runs; (jijisa@iorchard.net)
+* add VERSIONS file; (jijisa@iorchard.net)
+* feature: change cron_volume_usage_audit to false in cinder; (jijisa@iorchard.net)
+* fix: containerd_insecure_registries default value depending on registry_enabled in vars.yml.sample; (jijisa@iorchard.net)
+* feature: patch to set high scheduling priority to etcd service; (jijisa@iorchard.net)
+* feature: add etcd scheduling priority variables in vars.yml.sample; (jijisa@iorchard.net)
+* fix: add nas_secure_file_{operations,permissions} in cinder netapp backend; (jijisa@iorchard.net)
+* feature: add checklist variables in vars.yml.sample; (jijisa@iorchard.net)
+* feature: import checklist in preflight playbook; (jijisa@iorchard.net)
+* feature: add preflight checklist playbook; (jijisa@iorchard.net)
+* feature: add the in-use volume migration support in cinder; (jijisa@iorchard.net)
