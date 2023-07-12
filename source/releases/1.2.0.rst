@@ -1,20 +1,19 @@
 1.2.0 Aster
 ============
 
-This is the first release in the Aster 1.2 series.
+Aster 1.2 시리즈 첫 번째 릴리즈
 
 Notable changes
 ----------------
 
-* Move kubespray and ceph-ansible to submodule.
-  So now kubespray and ceph-ansible follow the upstream repository. 
-  Apply the patch files without modifying the upstream repository directly.
-* The kubespray is fixed to release-2.22 which is the last branch to support
-  kubernetes 1.24.x version.
-* The ceph-ansible is fixed to stable-7.0 which is the branch to support
-  Ceph Quincy 17.2.x version.
-* Add qemu-utils package in btx image 
-  The qemu-img command is used a lot by engineers.
+* kubespray 및 ceph-ansible을 하위 모듈로 이동합니다. 
+  이제 kubespray와 ceph-ansible은 upstream repository로 이동합니다. 
+  upstream repository를 직접 수정하지 않고 패치 파일을 적용합니다.
+* kubespray는 kubernetes 1.24.x 버전을 지원하는 마지막 branch release-2.22로 수정되었습니다.
+* ceph-ansible은 Ceph Quincy 17.2.x 버전을 지원하는 branch stable-7.0으로 고정됩니다.
+* btx 이미지에 qemu-utils 패키지 추가했습니다. 
+  qemu-img 명령어는 엔지니어가 많이 사용합니다.
+  
 
 Burrito Changelog
 ------------------
