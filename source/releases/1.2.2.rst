@@ -8,7 +8,6 @@ Notable changes
 
 * cinder에 사용 중인 volume migration 지원을 추가합니다.
 * 인적 오류를 최소화하기 위해 preflight playbook에 체크리스트를 추가합니다.
-* Add NFS-related two paramenters in cinder.
 * cinder에 NFS 관련 두 매개변수를 추가합니다.
   nas_secure_file_operation 및 nas_secure_file_permission을 false로 설정합니다. 
   true로 설정하는 것을 권장하지만, true로 설정할 때 storage backend에서 추가 설정을 해주어야 합니다. 
