@@ -199,10 +199,10 @@ burrito 4개의 호스트 그룹
 
 
 
-prepare.sh 스크립트를 실행하면 기본 hosts.sample이 *hosts* 파일로 복사됩니다.
+prepare.sh 스크립트를 실행하면 기본 hosts.sample이 *hosts* 파일로 복사됩니다. powerflex를 사용하려면 powerflex 인벤토리 파일 중 하나를 복사해야 합니다.
 
 
-powerflex를 사용하려면 powerflex 인벤토리 파일 중 하나를 복사해야 합니다.
+
 
 ::
 
