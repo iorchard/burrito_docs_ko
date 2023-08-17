@@ -81,7 +81,7 @@ KeepAlived VIP     192.168.20.100    192.168.21.100
 * control 그룹에서 첫번째 노드(control1)가 ansible 배포 노드입니다.
 * 모든 노드에 ansible 사용자는 sudo 권한이 있다. ansible 사용자는 clex 입니다.
 * 모든 노드는 배포 노드의 /etc/hosts에 정의되어야 한다.
-* 단, powerflex를 설치할 경우 storage 노드에 OSD(추가볼륨)는 90GB 이상이어야 합니다.
+* 단, powerflex를 설치할 경우 storage 노드에 SDS 디바이스는 100GB 이상이어야 합니다.
 
 .. attention:: 
 
@@ -91,7 +91,7 @@ KeepAlived VIP     192.168.20.100    192.168.21.100
 
       management 네트워크 대역 IP로 기재되어야 합니다.
 
-      단, powerflex를 설치할 경우 storage 노드에 OSD(추가볼륨)는 90GB 이상이어야 합니다.
+      단, powerflex를 설치할 경우 storage 노드에 SDS 디바이스는 100GB 이상이어야 합니다.
 
 ::
 
@@ -109,7 +109,7 @@ KeepAlived VIP     192.168.20.100    192.168.21.100
 
    ::
 
-      powerflex HCI(Hyper-Converged Infrastructure)를 사용한 경우 총 3개의 노드만으로 정의할 수 있습니다.
+      powerflex HCI(Hyper-Converged Infrastructure)를 사용한 경우 최소 3개 이상 정의할 수 있습니다.
 
 
 ::
@@ -567,11 +567,11 @@ ceph가 storage_backends에 있는 경우 storage 노드에서 lsblk 명령을 �
 
    storage1$ lsblk -p
    NAME        MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
-   /dev/sda      8:0    0  50G  0 disk 
-   └─/dev/sda1   8:1    0  50G  0 part /
-   /dev/sdb      8:16   0  50G  0 disk 
-   /dev/sdc      8:32   0  50G  0 disk 
-   /dev/sdd      8:48   0  50G  0 disk 
+   /dev/sda      8:0    0  100G  0 disk 
+   └─/dev/sda1   8:1    0  100G  0 part /
+   /dev/sdb      8:16   0  100G  0 disk 
+   /dev/sdc      8:32   0  100G  0 disk 
+   /dev/sdd      8:48   0  100G  0 disk 
 
 
 
@@ -624,11 +624,11 @@ powerflex
 
    storage1$ lsblk -p
    NAME        MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
-   /dev/sda      8:0    0  50G  0 disk
-   └─/dev/sda1   8:1    0  50G  0 part /
-   /dev/sdb      8:16   0  50G  0 disk
-   /dev/sdc      8:32   0  50G  0 disk
-   /dev/sdd      8:48   0  50G  0 disk
+   /dev/sda      8:0    0  100G  0 disk
+   └─/dev/sda1   8:1    0  100G  0 part /
+   /dev/sdb      8:16   0  100G  0 disk
+   /dev/sdc      8:32   0  100G  0 disk
+   /dev/sdd      8:48   0  100G  0 disk
 
 
 
@@ -656,9 +656,10 @@ group_vars/all/powerflex_vars.yml 파일을 수정합니다.
 
    ::
 
-      1. mdm_ip는 storage 네트워크를 사용합니다.
+      1. mdm_ip는 storage 네트워크의 virtual ip를 입력합니다.
+         - 사용중이지 않는 ip를 할당해야 합니다.
 
-      2. storage 인터페이스를 사용합니다.
+      2. storage_iface_names은 storage 인터페이스를 입력합니다.
 
       3. 만약 이 변수들이 무엇인지 모른다면, Dell 엔지니어에게 물어보세요.
 
@@ -1009,8 +1010,6 @@ Step.5.2 Powerflex
    ::
 
       Powerflex가 storage_backends에 없다면 이 단계를 건너뜁니다.
-
-      해당 TASK [burrito.powerflex : Cluster | change the default MDM password] 에서 FAILED 결과가 나온 경우 1~2번 playbook을 다시 시도해봅니다.
 
 
 
