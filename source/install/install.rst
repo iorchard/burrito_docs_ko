@@ -81,6 +81,7 @@ KeepAlived VIP     192.168.20.100    192.168.21.100
 * control 그룹에서 첫번째 노드(control1)가 ansible 배포 노드입니다.
 * 모든 노드에 ansible 사용자는 sudo 권한이 있다. ansible 사용자는 clex 입니다.
 * 모든 노드는 배포 노드의 /etc/hosts에 정의되어야 한다.
+* 단, powerflex를 설치할 경우 storage 노드에 OSD(추가볼륨)는 90GB 이상이어야 합니다.
 
 .. attention:: 
 
@@ -89,6 +90,8 @@ KeepAlived VIP     192.168.20.100    192.168.21.100
       control 노드 1번 에서 /etc/hosts를 정의합니다.
 
       management 네트워크 대역 IP로 기재되어야 합니다.
+
+      단, powerflex를 설치할 경우 storage 노드에 OSD(추가볼륨)는 90GB 이상이어야 합니다.
 
 ::
 
@@ -101,6 +104,20 @@ KeepAlived VIP     192.168.20.100    192.168.21.100
    192.168.21.106 storage1 
    192.168.21.107 storage2 
    192.168.21.108 storage3 
+
+.. attention:: 
+
+   ::
+
+      powerflex HCI(Hyper-Converged Infrastructure)를 사용한 경우 총 3개의 노드만으로 정의할 수 있습니다.
+
+
+::
+
+   127.0.0.1 localhost
+   192.168.21.101 powerflex-HCI1
+   192.168.21.102 powerflex-HCI2
+   192.168.21.103 powerflex-HCI3
 
 
 
@@ -139,8 +156,8 @@ burrito 압축 파일을 홈디렉토리에서 압축 해제한다.
 ::
    
 
-   $ ./prepare.sh 
-   
+   $ ./prepare.sh offline
+   Enter management network interface name: eth1
 
 
 
@@ -163,81 +180,236 @@ burrito 4개의 호스트 그룹
 * 스토리지 노드(Storage Node): Ceph storage 서비스인 모니터(Monitor), 매니저(Manager), OSD, Rados 게이트웨이를 실행
 
 
+인벤토리 호스트 수정
+^^^^^^^^^^^^^^^^^^^^^^^
+
+3종류 인벤토리 호스트 sample이 있습니다.
+
+* hosts.sample (default):
+    이 파일은 storage 백엔드 ceph를 사용하는 샘플 파일입니다.
+* hosts_powerflex.sample:
+    이 파일은 storage 백엔드 powerflex를 사용하는 샘플 파일입니다.
+* hosts_powerflex_hci.sample:
+    이 파일은 powerflex HCI(Hyper-Converged Infrastructure)를 사용하는 샘플 파일입니다.
+
+
+.. warning::
+
+    powerflex를 burrito에 설치하려면 Dell에서 powerflex rpm 패키지를 설치해야 합니다.
+
+
+
+prepare.sh 스크립트를 실행하면 기본 hosts.sample이 *hosts* 파일로 복사됩니다.
+
+
+powerflex를 사용하려면 powerflex 인벤토리 파일 중 하나를 복사해야 합니다.
+
+::
+
+   $ cp hosts_powerflex.sample hosts
+
+   $ cp hosts_powerflex_hci.sample hosts
+
+
 
 .. attention::
 
    ::
    
-      hosts 파일 편집 시 주의사항     
+      hosts 파일 수정 시 주의사항     
 
-      1. 네트워크 노드가 따로 없으므로 control 노드를 네트워크 노드 그룹에 넣으면 됩니다.
+      1. 샘플 파일에는 네트워크 노드가 따로 없으므로 control 노드가 네트워크 노드 그룹에 있습니다.
 
       2. 반드시 etc/hosts 정의된 내용을 참조하여 작성합니다.
+         - powerflex_hci 호스트 파일에서 pfx-로 정의된 모든 호스트 이름을 수정해줘야 합니다.
 
       3. Do not edit below 아래의 내용은 건드리지 않습니다. 
 
 
-hosts 인벤토리 파일 편집합니다.
+3가지 샘플 인벤토리 파일입니다.(텍스트를 클릭하면 열립니다)
 
-::
+.. collapse:: 기본 inventory file
 
-   $ vi hosts
-   control1 ip=192.168.21.101 ansible_connection=local ansible_python_interpreter=/usr/bin/python3
-   control2 ip=192.168.21.102
-   control3 ip=192.168.21.103
-   compute1 ip=192.168.21.104
-   compute2 ip=192.168.21.105
-   storage1 ip=192.168.21.106
-   storage2 ip=192.168.21.107
-   storage3 ip=192.168.21.108
+   .. code-block::
+      :linenos:
 
-   # ceph nodes
-   [mons]
-   storage[1:3]
-   
-   [mgrs]
-   storage[1:3]
-   
-   [osds]
-   storage[1:3]
-   
-   [rgws]
-   storage[1:3]
-   
-   [clients]
-   control[1:3]
-   compute[1:2]
-   
-   # kubernetes nodes
-   [kube_control_plane]
-   control[1:3]
-   
-   [kube_node]
-   control[1:3]
-   compute[1:2]
-   
-   # openstack nodes
-   [controller-node]
-   control[1:3]
-   
-   [network-node]
-   control[1:3]
-   
-   [compute-node]
-   compute[1:2]
-   
-   ###################################################
-   ## Do not touch below if you are not an expert!!! #
-   ###################################################
+      control1 ip=192.168.21.101 ansible_connection=local ansible_python_interpreter=/usr/bin/python3
+      control2 ip=192.168.21.102
+      control3 ip=192.168.21.103
+      compute1 ip=192.168.21.104
+      compute2 ip=192.168.21.105
+      storage1 ip=192.168.21.106
+      storage2 ip=192.168.21.107
+      storage3 ip=192.168.21.108
 
-인벤토리 변수
+      # ceph nodes
+      [mons]
+      storage[1:3]
+
+      [mgrs]
+      storage[1:3]
+
+      [osds]
+      storage[1:3]
+
+      [rgws]
+      storage[1:3]
+
+      [clients]
+      control[1:3]
+      compute[1:2]
+
+      # kubernetes nodes
+      [kube_control_plane]
+      control[1:3]
+
+      [kube_node]
+      control[1:3]
+      compute[1:2]
+
+      # openstack nodes
+      [controller-node]
+      control[1:3]
+
+      [network-node]
+      control[1:3]
+
+      [compute-node]
+      compute[1:2]
+
+      ###################################################
+      ## Do not touch below if you are not an expert!!! #
+      ###################################################
+
+
+
+.. collapse:: the powerflex inventory file
+
+   .. code-block::
+      :linenos:
+
+      control1 ip=192.168.21.101 ansible_connection=local ansible_python_interpreter=/usr/bin/python3
+      control2 ip=192.168.21.102
+      control3 ip=192.168.21.103
+      compute1 ip=192.168.21.104
+      compute2 ip=192.168.21.105
+      storage1 ip=192.168.21.106
+      storage2 ip=192.168.21.107
+      storage3 ip=192.168.21.108
+
+      # ceph nodes
+      [mons]
+      [mgrs]
+      [osds]
+      [rgws]
+      [clients]
+
+      # powerflex nodes
+      [mdm]
+      storage[1:3]
+
+      [sds]
+      storage[1:3]
+
+      [sdc]
+      control[1:3]
+      compute[1:2]
+
+      [gateway]
+      storage[1:2]
+
+      [presentation]
+      storage3
+
+      # kubernetes nodes
+      [kube_control_plane]
+      control[1:3]
+
+      [kube_node]
+      control[1:3]
+      compute[1:2]
+
+      # openstack nodes
+      [controller-node]
+      control[1:3]
+
+      [network-node]
+      control[1:3]
+
+      [compute-node]
+      compute[1:2]
+
+      ###################################################
+      ## Do not touch below if you are not an expert!!! #
+      ###################################################
+
+
+
+
+.. collapse:: the powerflex HCI inventory file
+
+   .. code-block::
+      :linenos:
+
+      pfx-1 ip=192.168.21.131 ansible_connection=local ansible_python_interpreter=/usr/bin/python3
+      pfx-2 ip=192.168.21.132
+      pfx-3 ip=192.168.21.133
+
+      # ceph nodes
+      [mons]
+      [mgrs]
+      [osds]
+      [rgws]
+      [clients]
+
+      # powerflex nodes
+      [mdm]
+      pfx-[1:3]
+
+      [sds]
+      pfx-[1:3]
+
+      [sdc]
+      pfx-[1:3]
+
+      [gateway]
+      pfx-[1:2]
+
+      [presentation]
+      pfx-3
+
+      # kubernetes nodes
+      [kube_control_plane]
+      pfx-[1:3]
+
+      [kube_node]
+      pfx-[1:3]
+
+      # openstack nodes
+      [controller-node]
+      pfx-[1:3]
+
+      [network-node]
+      pfx-[1:3]
+
+      [compute-node]
+      pfx-[1:3]
+
+      ###################################################
+      ## Do not touch below if you are not an expert!!! #
+      ###################################################
+
+
+
+
+인벤토리 변수 수정
 ++++++++++++++++++++++++++++
 
 .. attention::
 
    ::
 
-      hosts 파일 편집 시 주의사항
+      vars.yml 파일 수정 시 주의사항
 
 
       1. 바꿔야 하는 변수("""내용"""표시)만 바꿔주고 다른 변수나 Do not edit below는 건드리지 않습니다. 
@@ -248,7 +420,13 @@ hosts 인벤토리 파일 편집합니다.
 
       4. """내용""" 표시는 변수에 대한 설명이 되어 있는 부분입니다.
 
-vars yml파일을 편집합니다.::
+
+
+
+vars yml파일을 수정합니다.
+
+
+::
 
    $ vi vars.yml
    ---
@@ -348,19 +526,21 @@ vars yml파일을 편집합니다.::
    # storage backends: ceph and(or) netapp
    # If there are multiple backends, the first one is the default backend.
    storage_backends:
-     - netapp
-     - ceph
-   
+   - ceph
+   - netapp
+   - powerflex
+
    # ceph: set ceph configuration in group_vars/all/ceph_vars.yml
    # netapp: set netapp configuration in group_vars/all/netapp_vars.yml
+   # powerflex: set powerflex configuration in group_vars/all/powerflex_vars.yml
 
    """
    storage_backends
-   Burrito는 ceph 와 netapp 두 가지 storage 백엔드를 지원합니다.
+   Burrito는  ceph, netapp 및 powerflex와 같은 세 가지 storage 백엔드를 지원합니다.
    백엔드가 여러 개인 경우 첫 번째 백엔드가 기본 백엔드입니다. 
    이는 기본 storageclass, gladiator store 및 기본 cinder 볼륨 유형이 첫 번째 백엔드임을 의미합니다.
-   storageclass 이름을 지정하지 않으면 영구 볼륨이 기본 백엔드에 생성됩니다.
-   볼륨 유형을 지정하지 않으면 기본 볼륨 유형에 볼륨이 생성됩니다.
+   Kubernetes의 Persistent Volumes은 storageclass 이름을 지정하지 않으면 영구 볼륨이 기본 백엔드에 생성됩니다.
+   OpenStack의 볼륨은 볼륨 유형을 지정하지 않으면 기본 볼륨 유형에 볼륨이 생성됩니다.
    추가적으로 storage 변수 설정은 burrito-<version>/group_vars/all 경로에서 수정합니다.
    """
 
@@ -373,7 +553,7 @@ vars yml파일을 편집합니다.::
 storage 변수 설정
 ^^^^^^^^^^^^^^^^^^^^^^
 
-storage 변수 설정에서는 group_vars/all/ceph_vars.yml 또는 group_vars/all/netapp_vars.yml 편집합니다.
+storage 변수 설정에서는 group_vars/all/ceph_vars.yml 또는 group_vars/all/netapp_vars.yml 수정합니다.
 
 *ceph*
 ^^^^^^^^^^
@@ -395,7 +575,7 @@ ceph가 storage_backends에 있는 경우 storage 노드에서 lsblk 명령을 �
 
 
 
-group_vars/all/ceph_vars.yml을 편집하고 /dev/sd{b,c,d}를 추가합니다.
+group_vars/all/ceph_vars.yml을 수정하고 /dev/sd{b,c,d}를 추가합니다.
 
 ::
 
@@ -411,7 +591,7 @@ group_vars/all/ceph_vars.yml을 편집하고 /dev/sd{b,c,d}를 추가합니다.
 *netapp*
 ^^^^^^^^^^^^^
 
-netapp이 storage_backends에 있는 경우 group_vars/all/netapp_vars.yml을 편집합니다.
+netapp이 storage_backends에 있는 경우 group_vars/all/netapp_vars.yml을 수정합니다.
 
 netapp 각각의 변수가 무엇인지 모르는 경우 netapp 엔지니어에게 도움을 구하세요.
 
@@ -430,6 +610,57 @@ netapp 각각의 변수가 무엇인지 모르는 경우 netapp 엔지니어에�
        shares:
          - /dev03
    ...
+
+
+powerflex
+^^^^^^^^^^
+
+만약 powerflex가 storage_backends에 포함되어 있다면, storage 노드에서 lsblk 명령을 실행하여 장치 이름을 가져옵니다.
+
+이 경우, /dev/sda는 OS 디스크이며 /dev/sd{b,c,d}는 powerflex SDS 디스크용으로 사용됩니다.
+
+.. code-block::
+   :linenos:
+
+   storage1$ lsblk -p
+   NAME        MAJ:MIN RM SIZE RO TYPE MOUNTPOINT
+   /dev/sda      8:0    0  50G  0 disk
+   └─/dev/sda1   8:1    0  50G  0 part /
+   /dev/sdb      8:16   0  50G  0 disk
+   /dev/sdc      8:32   0  50G  0 disk
+   /dev/sdd      8:48   0  50G  0 disk
+
+
+
+group_vars/all/powerflex_vars.yml 파일을 수정합니다.
+
+
+.. code-block::
+   :linenos:
+
+   # MDM VIPs on storage networks
+   mdm_ip:
+     - "192.168.24.100"
+   storage_iface_names:
+     - eth4
+   sds_devices:
+     - /dev/sdb
+     - /dev/sdc
+     - /dev/sdd
+
+   #
+   # Do Not Edit below
+   #
+
+.. attention::
+
+   ::
+
+      1. mdm_ip는 storage 네트워크를 사용합니다.
+
+      2. storage 인터페이스를 사용합니다.
+
+      3. 만약 이 변수들이 무엇인지 모른다면, Dell 엔지니어에게 물어보세요.
 
 
 
@@ -717,8 +948,8 @@ k8s playbook을 실행합니다.
    control3   Ready    control-plane   16m   v1.24.14
 
 
-Step.5 Netapp
-++++++++++++++++
+Step.5.1 Netapp
+++++++++++++++++++
 
 .. attention::
 
@@ -757,6 +988,65 @@ netapp playbook 실행합니다.
    trident-csi-klj7h              2/2     Running   0          42s
    trident-csi-kv9mw              2/2     Running   0          42s
    trident-csi-r8gqv              2/2     Running   0          43s
+
+
+
+Step.5.2 Powerflex
++++++++++++++++++++++
+
+.. attention::
+
+   ::
+
+      Powerflex가 storage_backends에 없다면 이 단계를 건너뜁니다.
+
+
+Powerflex 설치 단계는 다음 작업을 합니다.
+
+* powerflex rpm packages 설치
+* powerflex MDM cluster 생성
+* gateway and presentation 서비스 구성
+* Protection Domain, Storage Pool, and SDS 장치 설정
+* vxflexos controller and node를 vxflexos namespace에 설치
+* powerflex storageclass 생성
+
+
+설치
+^^^^^^^
+
+Powerflex playbook 실행합니다.
+
+::
+
+   $ ./run.sh powerflex
+
+
+
+확인
+^^^^^^^
+
+vxflexos 네임스페이스의 모든 파드가 실행 중이고 준비 상태인지 확인합니다.
+
+::
+
+   $ sudo kubectl get pods -n vxflexos
+   NAME                                   READY   STATUS    RESTARTS   AGE
+   vxflexos-controller-744989794d-92bvf   5/5     Running   0          18h
+   vxflexos-controller-744989794d-gblz2   5/5     Running   0          18h
+   vxflexos-node-dh55h                    2/2     Running   0          18h
+   vxflexos-node-k7kpb                    2/2     Running   0          18h
+   vxflexos-node-tk7hd                    2/2     Running   0          18h
+
+powerflex storageclass가 생성되었는지도 확인합니다.
+
+::
+
+   $ sudo kubectl get storageclass powerflex
+   NAME                  PROVISIONER                RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
+   powerflex (default)   csi-vxflexos.dellemc.com   Delete          WaitForFirstConsumer   true                   20h
+
+
+
 
 Step.6 Patch
 +++++++++++++++
