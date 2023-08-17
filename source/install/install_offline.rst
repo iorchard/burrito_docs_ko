@@ -193,7 +193,7 @@ burrito 4개의 호스트 그룹
     이 파일은 powerflex HCI(Hyper-Converged Infrastructure)를 사용하는 샘플 파일입니다.
 
 
-.. warning::
+.. attention::
 
     powerflex를 burrito에 설치하려면 Dell에서 powerflex rpm 패키지를 설치해야 합니다.
 
@@ -1009,6 +1009,9 @@ Step.5.2 Powerflex
    ::
 
       Powerflex가 storage_backends에 없다면 이 단계를 건너뜁니다.
+
+      해당 TASK [burrito.powerflex : Cluster | change the default MDM password] 에서 FAILED 결과가 나온 경우 1~2번 playbook을 다시 시도해봅니다.
+
 
 
 Powerflex 설치 단계는 다음 작업을 합니다.

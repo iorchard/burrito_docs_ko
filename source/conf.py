@@ -2,7 +2,10 @@ project = 'Burrito Documentation (Korean)'
 copyright = '2023, Burrito authors and contributors'
 author = 'Burrito authors and contributors'
 
-extensions = []
+extensions = [
+  'sphinx_toolbox.collapse',
+]
+
 
 templates_path = ['_templates']
 exclude_patterns = []
