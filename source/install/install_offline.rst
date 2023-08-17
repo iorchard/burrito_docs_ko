@@ -228,7 +228,7 @@ prepare.sh 스크립트를 실행하면 기본 hosts.sample이 *hosts* 파일로
 
 3가지 샘플 인벤토리 파일입니다.(텍스트를 클릭하면 열립니다)
 
-.. collapse:: 기본 inventory file
+.. collapse:: The default inventory file
 
    .. code-block::
       :linenos:
