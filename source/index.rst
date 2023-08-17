@@ -19,7 +19,6 @@ Burrito 한글 문서
 
    온라인 설치 <install/install>
    오프라인 설치 <install/install_offline>
-   오류 수정사항 <install/errata>
 
 .. toctree::
    :caption: 운영
