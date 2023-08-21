@@ -195,7 +195,9 @@ burrito 4개의 호스트 그룹
 
 .. attention::
 
-    powerflex를 burrito에 설치하려면 Dell에서 powerflex rpm 패키지를 설치해야 합니다.
+   ::
+
+      powerflex를 burrito에 설치하려면 Dell에서 powerflex rpm 패키지를 지원받아야 합니다.
 
 
 

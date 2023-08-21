@@ -6,15 +6,13 @@ Aster 1.2 시리즈 세 번째 패치
 Notable changes
 ----------------
 
-* Add network QoS parameters in neutron.
-* Add ntp-sync wait task so it waits until all hosts are time-synchronized.
-* Add Dell Powerflex storage support. You can run powerflex as storage-only 
-  mode or as HCI (Hyper-Converged Infrastructure) mode.
-* Fix genesis registry patch tasks.
-  The k8s bootloader images (control plane, kube-proxy, csi drivers, etc.)
-  are pushed to the genesis registry and the image url in the bootloader pods 
-  are patched to point to the genesis registry.
-* Support VM cold migration in non-default ssh port environment.
+* 네트워크 QoS 매개변수를 neutron에 추가합니다.
+* 모든 호스트가 시간 동기화될 때까지 ntp-sync 대기 작업을 추가합니다.
+* Dell Powerflex 스토리지 지원을 추가합니다. Powerflex는 스토리지 전용 모드 또는 HCI(Hyper-Converged Infrastructure) 모드로 실행할 수 있습니다.
+* genesis registry 패치 작업을 수정합니다.
+  k8s 부트로더 이미지 (control plane, kube-proxy, csi drivers, etc.)
+  가 genesis registry로 푸시되며 bootloader pods의 이미지 URL은 genesis registry를 바라보도록 패치됩니다.
+* 기본 설정되지 않은 ssh port 환경에서 가상머신의 cold migration을 지원합니다.
 
 Burrito Changelog
 ------------------
