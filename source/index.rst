@@ -28,8 +28,9 @@ Burrito 한글 문서
 
 .. toctree::
    :caption: 릴리즈
-   :maxdepth: 4
+   :maxdepth: 5
 
+   releases/1.2.4
    releases/1.2.3
    releases/1.2.2
    releases/1.2.1
