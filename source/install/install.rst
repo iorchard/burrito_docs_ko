@@ -533,7 +533,9 @@ vars yml파일을 수정합니다.
 
    """
    ha_level
-   KeepAlived/HAProxy HA 레벨을 설정합니다. 기본적으로 moderato, allegro 및 vivace 중 하나여야 합니다. 각 레벨은 다음과 같은 매개변수를 설정합니다.
+   KeepAlived/HAProxy HA 레벨을 설정합니다. 
+   기본적으로 moderato, allegro 및 vivace 중 하나여야 합니다. 
+   각 레벨은 다음과 같은 매개변수를 설정합니다.
  - interval: health check 초 단위 간격
  - timeout: health check 초 단위 타임아웃
  - rise: 요구된 성공 횟수
@@ -541,14 +543,20 @@ vars yml파일을 수정합니다.
 
 
    k8s_ha_level
-   Kubernetes HA 레벨을 설정합니다. 기본적으로 moderato, allegro 및 vivace 중 하나여야 합니다. 각 레벨은 다음과 같은 매개변수를 설정합니다.
- - node_status_update_frequency: kubelet이 마스터에 노드 상태를 게시하는 빈도를 지정
- - node_monitor_period:  NodeController에서 NodeStatus를 동기화하는 지속 기간입니다.
- - node_monitor_grace_period: running 노드가 무응답 상태가 되기 전에 건강하지 않다고 표시하기 위해 허용되는 시간입니다.
- - not_ready_toleration_seconds:  기본적으로 이러한 허용을 가지지 않는 모든 Pod에 추가되는 notReady:NoExecute에 대한 허용 기간입니다.
- - unreachable_toleration_seconds: 기본적으로 이러한 허용을 가지지 않는 모든 Pod에 추가되는 unreachable:NoExecute에 대한 허용 기간입니다.
- - kubelet_shutdown_grace_period: 노드가 종료를 지연시키는 총 지속 기간입니다.
- - kubelet_shutdown_grace_period_critical_pods: 노드 종료 중에 critical한 Pod를 종료하기 위해 사용되는 지속 기간입니다.
+   Kubernetes HA 레벨을 설정합니다. 
+   기본적으로 moderato, allegro 및 vivace 중 하나여야 합니다. 
+   각 레벨은 다음과 같은 매개변수를 설정합니다.
+ - node_status_update_frequency: kubelet이 마스터에 노드 상태를 게시하는 빈도를 지정합니다.
+ - node_monitor_period:  NodeController에서 NodeStatus를 동기화하는 지속 시간입니다.
+ - node_monitor_grace_period: running 노드가 무응답 상태가 되기 전에 건강하지 않다고 표시하기 위해 
+   허용되는 시간입니다.
+ - not_ready_toleration_seconds:  기본적으로 이러한 허용을 가지지 않는 모든 Pod에 추가되는 
+   notReady:NoExecute에 대한 허용 시간입니다.
+ - unreachable_toleration_seconds: 기본적으로 이러한 허용을 가지지 않는 모든 Pod에 추가되는 
+   unreachable:NoExecute에 대한 허용 시간입니다.
+ - kubelet_shutdown_grace_period: 노드가 종료를 지연시키는 총 지속 시간입니다.
+ - kubelet_shutdown_grace_period_critical_pods: 노드 종료 중에 critical한 Pod를 종료하기 위해 
+   사용되는 지속 시간입니다.
    """
 
 
