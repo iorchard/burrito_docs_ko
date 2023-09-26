@@ -25,6 +25,7 @@ Burrito 한글 문서
    :maxdepth: 2
 
    컴퓨트 노드 추가 <operation/add_compute_node>
+   자연스러운 노드 종료 <operation/graceful_node_shutdown>
 
 .. toctree::
    :caption: 릴리즈
