@@ -22,10 +22,11 @@ Burrito 한글 문서
 
 .. toctree::
    :caption: 운영
-   :maxdepth: 2
+   :maxdepth: 5
 
    컴퓨트 노드 추가 <operation/add_compute_node>
    자연스러운 노드 종료 <operation/graceful_node_shutdown>
+   오픈스택 차트 배포 및 삭제 <operation/openstack_chart>
 
 .. toctree::
    :caption: 릴리즈
