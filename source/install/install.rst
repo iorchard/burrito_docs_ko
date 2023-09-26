@@ -149,6 +149,15 @@ burrito 압축 파일을 홈디렉토리에서 압축 해제한다.
 
    $ cd burrito-<version>
 
+
+.. attention::
+
+   :: 
+      
+      설치하기 전에 반드시 오류 수정사항을 적용하는 것이 강력히 권장됩니다. :doc:`오류 수정사항 <errata>`를 확인하세요.
+      
+
+
 이제 prepare shell script를 실행한다.
 
 그리고 management 네트워크 이름을 입력한다. (예: eth1)
