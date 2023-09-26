@@ -1,31 +1,28 @@
 1.2.4 Aster
 ============
 
-This is the fourth patch in the Aster 1.2 series.
+이것은 Aster 1.2 시리즈의 네 번째 패치입니다.
 
 Notable changes
 ----------------
 
-* Change openstack rabbitmq queues to quorum queue.
-* Create a haproxy config file for each service. all services are used to be
-  in /etc/haproxy/haproxy.cfg. 
-  Now each service file is in /etc/haproxy/conf.d/.
-* Add quorum-replica for quorum-required services like mariadb and rabbitmq.
-  All other services set to ha-replica.
-  If there are 3 control nodes, quorum-replica is 3 and ha-replica is 2.
-* Add kube-apiserver LoadBalance support. It used to listen to all interfaces.
-  Now it listens on management interface and haproxy on Keepalived VIP
-  distributes the traffic to each kube-apiserver.
-* Add HA settings for HAProxy/KeepAlived and Kubernetes in vars.yml.
-  There are three ha levels - moderato, allegro, and vivace.
+* 오픈스택 rabbitmq queues를 quorum queue로 변경합니다.
+* 각 서비스를 위한 HAProxy 구성 파일을 만듭니다. 모든 서비스는 이전에는 /etc/haproxy/haproxy.cfg에 있었습니다. 
+  이제 각 서비스 파일은 /etc/haproxy/conf.d/에 있습니다.
+* mariadb와 rabbitmq와 같은 quorum이 필요한 서비스에 대한 quorum-replica를 추가합니다. 
+  다른 모든 서비스는 ha-replica로 설정합니다.
+  3개의 control 노드가 있는 경우 quorum-replica는 3이고 ha-replica는 2입니다.
+* kube-apiserver LoadBalance 지원을 추가합니다. 이전에는 모든 인터페이스를 수신 대기했습니다.
+  이제 management interface에서 수신 대기하며 Keepalived VIP에서 haproxy가 트래픽을 각 kube-apiserver로 분산합니다.
+* HAProxy/KeepAlived 및 Kubernetes를 위한 HA 설정을 vars.yml에 추가합니다. 
+  moderato, allegro 및 vivace라는 세 가지 HA 레벨이 있습니다.
 
-    - moderato: default liveness update and failover response
-    - allegro: faster liveness update and failover response
-    - vivace: fastest liveness update and failover response
+    - moderato: 기본 liveness 업데이트 및 장애 조치 응답
+    - allegro: 빠른 liveness 업데이트 및 장애 조치 응답
+    - vivace: 가장 빠른 liveness 업데이트 및 장애 조치 응답
 
-* Add Graceful Node Shutdown Helper (GNSH) to help shutting down the node
-  gracefully. 
-  Refer to the following link 
+* 자연스러운 노드 종료하는 데 도움을 주기 위해 Graceful Node Shutdown Helper (GNSH)를 추가합니다. 
+  자세한 내용은 다음 링크를 참조하십시오
   :doc:`Graceful Node Shutdown </operation/graceful_node_shutdown>`
 
 Burrito Changelog

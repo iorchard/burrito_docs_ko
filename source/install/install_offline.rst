@@ -522,7 +522,37 @@ vars yml파일을 수정합니다.
    metallb_ip_range: 
    - "이 곳에만 작성합니다."
    """
-    
+
+
+   ### HA tuning
+   # ha levels: moderato, allegro, and vivace
+   # moderato: default liveness update and failover response
+   # allegro: faster liveness update and failover response
+   # vivace: fastest liveness update and failover response
+   ha_level: "moderato"
+   k8s_ha_level: "moderato"
+
+   """
+   ha_level
+   KeepAlived/HAProxy HA 레벨을 설정합니다. 기본적으로 moderato, allegro 및 vivace 중 하나여야 합니다. 각 레벨은 다음과 같은 매개변수를 설정합니다.
+ - interval: health check 초 단위 간격
+ - timeout: health check 초 단위 타임아웃
+ - rise: 요구된 성공 횟수
+ - fall: 요구된 실패 횟수
+
+
+   k8s_ha_level
+   Kubernetes HA 레벨을 설정합니다. 기본적으로 moderato, allegro 및 vivace 중 하나여야 합니다. 각 레벨은 다음과 같은 매개변수를 설정합니다.
+ - node_status_update_frequency: kubelet이 마스터에 노드 상태를 게시하는 빈도를 지정
+ - node_monitor_period:  NodeController에서 NodeStatus를 동기화하는 지속 기간입니다.
+ - node_monitor_grace_period: running 노드가 무응답 상태가 되기 전에 건강하지 않다고 표시하기 위해 허용되는 시간입니다.
+ - not_ready_toleration_seconds:  기본적으로 이러한 허용을 가지지 않는 모든 Pod에 추가되는 notReady:NoExecute에 대한 허용 기간입니다.
+ - unreachable_toleration_seconds: 기본적으로 이러한 허용을 가지지 않는 모든 Pod에 추가되는 unreachable:NoExecute에 대한 허용 기간입니다.
+ - kubelet_shutdown_grace_period: 노드가 종료를 지연시키는 총 지속 기간입니다.
+ - kubelet_shutdown_grace_period_critical_pods: 노드 종료 중에 critical한 Pod를 종료하기 위해 사용되는 지속 기간입니다.
+   """
+
+
 
    ### storage
    # storage backends: ceph and(or) netapp
@@ -1175,42 +1205,7 @@ registry playbook을 실행합니다.
    }
 
 
-
-Step.8 Burrito
-+++++++++++++++
-
-Burrito 설치 단계는 다음 작업을 합니다.
-
-* rados 게이트웨이 사용자(기본값: cloudpc) 및 클라이언트 구성(s3cfg)을 생성합니다.
-* nova vnc TLS 인증서를 배포합니다.
-* openstack 구성 요소를 배포합니다.
-* nova ssh 키를 생성하고 모든 compute 노드에 복사합니다.
-
-설치
-^^^^^^^
-
-=burrito playbook 실행합니다.
-
-::
-
-   $ ./run.sh burrito
-
-확인
-^^^^^^
-
-모든 pod가 실행중이고 openstack namespace에서 running 상태인지 확인합니다.
-
-::
-
-   $ sudo kubectl get pods -n openstack
-   NAME                                   READY   STATUS      RESTARTS   AGE
-   barbican-api-664986fd5-jkp9x           1/1     Running     0          4m23s
-   ...
-   rabbitmq-rabbitmq-0                    1/1     Running     0          27m
-   rabbitmq-rabbitmq-1                    1/1     Running     0          27m
-   rabbitmq-rabbitmq-2                    1/1     Running     0          27m
-
-Step.9 Landing
+Step.8 Landing
 +++++++++++++++
 
 Landing 설치 단계는 다음 작업을 합니다.
@@ -1252,6 +1247,43 @@ local repository pod가 실행중이고 burrito namespace에서 running 상태�
 축하합니다! 당신은 Burrito 플랫폼 설치를 완료했습니다.
 
 이제 Horizon 대시보드를 확인하고 BTX로 가상 머신을 생성할 수 있다.
+
+
+
+Step.9 Burrito
++++++++++++++++
+
+Burrito 설치 단계는 다음 작업을 합니다.
+
+* rados 게이트웨이 사용자(기본값: cloudpc) 및 클라이언트 구성(s3cfg)을 생성합니다.
+* nova vnc TLS 인증서를 배포합니다.
+* openstack 구성 요소를 배포합니다.
+* nova ssh 키를 생성하고 모든 compute 노드에 복사합니다.
+
+설치
+^^^^^^^
+
+=burrito playbook 실행합니다.
+
+::
+
+   $ ./run.sh burrito
+
+확인
+^^^^^^
+
+모든 pod가 실행중이고 openstack namespace에서 running 상태인지 확인합니다.
+
+::
+
+   $ sudo kubectl get pods -n openstack
+   NAME                                   READY   STATUS      RESTARTS   AGE
+   barbican-api-664986fd5-jkp9x           1/1     Running     0          4m23s
+   ...
+   rabbitmq-rabbitmq-0                    1/1     Running     0          27m
+   rabbitmq-rabbitmq-1                    1/1     Running     0          27m
+   rabbitmq-rabbitmq-2                    1/1     Running     0          27m
+
 
 
 

@@ -1,49 +1,43 @@
-Graceful Node Shutdown
+자연스러운 노드 종료
 ========================
 
-Kubernetes has a Graceful Node Shutdown feature since 1.21.
+Kubernetes는 1.21 버전부터 Graceful Node Shutdown 기능을 갖고 있습니다. 
 (https://kubernetes.io/docs/concepts/architecture/nodes/#graceful-node-shutdown)
 
-It uses systemd inhibitor lock to delay shutdown process when it detects
-shutdown event.
+이 기능은 노드 종료 이벤트를 감지할 때 systemd inhibitor lock을 사용하여 종료 프로세스를 지연시킵니다.
 
-The current k8s version of burrito is 1.24.14 and the graceful node shutdown
-feature is already enabled by default.
+현재 burrito의 Kubernetes 버전은 1.24.14이며, 자연스러운 노드 종료 기능은 기본적으로 활성화되어 있습니다.
 
-But this feature is not stable when we tested it.
-There are many issues reported on this feature.
+그러나 이 기능은 테스트를 진행한 결과 안정적이지 않습니다. 이 기능과 관련된 많은 이슈가 있었습니다.
 
-Here are some of them.
+다음은 그 중 몇 가지입니다.
 
 * https://github.com/kubernetes/kubernetes/issues/112443
 * https://github.com/kubernetes/kubernetes/issues/110755
 * https://github.com/kubernetes/kubernetes/issues/107158
 
-So we developed Graceful Node Shutdown Helper (GNSH, pronounce 'gee-en-sh')
-and added burrito.gnsh role in burrito 1.2.4.
+그래서 우리는 Graceful Node Shutdown Helper (GNSH, pronounce 'gee-en-sh')를 개발하고 burrito 1.2.4에 burrito.gnsh 역할을 추가했습니다.
 
-GNSH is a little script to run when a node is started and is shutdown/rebooted.
+GNSH는 노드가 시작되거나 종료/재부팅될 때 실행되는 짧은 스크립트입니다.
 
-When a node is shutdown or rebooted, this is a process to help evicting pods on
-the node.
+노드가 종료되거나 재부팅될 때, 다음은 노드에서 파드를 밀어내는 프로세스입니다.
 
-#. kubelet registers an inhibitor lock to delay shutdown for 300 seconds at boot
-   time
-#. systemctl [poweroff|reboot] or press power key, etc...
-#. kubelet detects shutdown event.
-#. kubelet Shutdown Manager changes the node status to NotReady.
-#. kubelet Shutdown Manager kills pods and update pod status to the api server.
-#. Kubelet Shutdown Manager completed processing shutdown event and unlock the
-   delay inhibitor lock.
-#. Now GNSH stop process is triggered by systemd daemon.
-#. GNSH runs a process to drain the node.
-#. The node is cordoned so the node status is changed to SchedulingDisabled.
-#. All pods except static and daemonset are evicted if there are pods left on
-   the node.
-#. GNSH completes a drain process.
-#. And systemd does the rest of the shutdown procedure.
+#. kubelet은 부팅 시 종료를 300초 지연시키기 위해 inhibitor lock을 등록합니다.
+#. systemctl [poweroff|reboot] 또는 전원 버튼을 누릅니다, etc...
+#. kubelet은 종료 이벤트를 감지합니다.
+#. kubelet Shutdown Manager는 노드 상태를 NotReady로 변경합니다.
+#. kubelet Shutdown Manager는 파드를 종료하고 파드 상태를 API 서버에 업데이트합니다.
+#. Kubelet Shutdown Manager는 종료 이벤트 처리를 완료하고 delay inhibitor lock을 해제합니다.
+#. 이제 systemd 데몬에 의해 GNSH 중지 프로세스가 진행됩니다.
+#. GNSH는 노드의 drain을 처리하기 위한 프로세스를 실행합니다.
+#. 노드가 격리되어 노드 상태가 SchedulingDisabled로 변경됩니다.
+#. 노드에 남아 있는 경우 정적(static) 및 데몬셋(daemonset)을 제외한 모든 Pod가 제거됩니다.
+#. GNSH는 제거 프로세스를 완료합니다.
+#. 그리고 systemd가 나머지 종료 절차를 수행합니다.
 
-Here are the logs when a node is powering off.::
+노드를 전원을 끄는 경우 로그는 다음과 같습니다.
+
+::
 
     Sep  9 17:45:37 control3 systemd-logind[666]: Power key pressed.
     Sep  9 17:45:37 control3 systemd-logind[666]: Powering Off...
@@ -80,7 +74,6 @@ Here are the logs when a node is powering off.::
     [  933.761678] reboot: Power down
 
 
-When the node starts, kubelet will make the node Ready and GNSH uncordon the
-node to make it schedulable.
+노드가 시작되면 kubelet은 노드를 Ready 상태로 만들고, GNSH는 노드를 스케줄 가능하게 만듭니다.
 
 
