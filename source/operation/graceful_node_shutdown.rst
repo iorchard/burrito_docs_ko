@@ -77,3 +77,22 @@ GNSH는 노드가 시작되거나 종료/재부팅될 때 실행되는 짧은 �
 노드가 시작되면 kubelet은 노드를 Ready 상태로 만들고, GNSH는 노드를 스케줄 가능하게 만듭니다.
 
 
+경고(Caveat)
+--------------
+
+테스트한 결과, kubelet 노드 종료 관리자는 systemctl 명령만 입력한 경우 트리거되어 문제가 발생함을 발견했습니다.
+
+systemctl poweroff
+systemctl reboot
+systemctl halt
+
+다음 명령어는 kubelet 노드 종료 관리자를 트리거하지 않아 적절합니다.
+
+shutdown -h now
+shutdown -P now
+poweroff
+reboot
+
+Rocky Linux의 systemd 버전(v239)은 레거시 명령어에 대한 dbus 신호를 방출하지 않으므로 kubelet의 inhibitor가 존중되지 않습니다.
+
+따라서 노드를 종료할 때 systemctl 명령어를 사용하십시오.
