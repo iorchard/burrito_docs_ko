@@ -10,6 +10,7 @@ openstack, k8s, ceph 삭제 가이드
 
 ::
 
+
    $ ./scripts/clean_openstack.sh
 
    Enter machine Hostname: control1
@@ -33,9 +34,12 @@ openstack, k8s, ceph 삭제 가이드
 
 .. attention::
 
+   ::
 
       단, openstack이 삭제되어야 합니다.
    
+
+
 
 
 ::
@@ -60,8 +64,11 @@ openstack, k8s, ceph 삭제 가이드
 
 .. attention::
 
+   ::
 
       단, openstack, k8s가 삭제되어야 합니다.
+
+
 
 
 
