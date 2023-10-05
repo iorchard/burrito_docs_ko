@@ -6,7 +6,7 @@ Kubernetes는 1.21 버전부터 Graceful Node Shutdown 기능을 갖고 있습�
 
 이 기능은 노드 종료 이벤트를 감지할 때 systemd inhibitor lock을 사용하여 종료 프로세스를 지연시킵니다.
 
-현재 burrito의 Kubernetes 버전은 1.24.14이며, 자연스러운 노드 종료 기능은 기본적으로 활성화되어 있습니다.
+현재 burrito의 Kubernetes 버전은 1.24.14이며, 정상적인 노드 종료 기능은 기본적으로 활성화되어 있습니다.
 
 그러나 이 기능은 테스트를 진행한 결과 안정적이지 않습니다. 이 기능과 관련된 많은 이슈가 있었습니다.
 
