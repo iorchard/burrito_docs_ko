@@ -10,7 +10,8 @@ openstack, k8s, ceph 삭제 가이드
 
 ::
 
-   [clex@control1 burrito-1.2.4-rc.0]$ ./scripts/clean_openstack.sh
+   $ ./scripts/clean_openstack.sh
+
    Enter machine Hostname: control1
    persistentvolumeclaim "ingress-client-body-vol-ingress-0" deleted
    persistentvolumeclaim "ingress-client-body-vol-ingress-1" deleted
@@ -32,7 +33,7 @@ openstack, k8s, ceph 삭제 가이드
 
 .. attention::
 
-   ::
+
       단, openstack이 삭제되어야 합니다.
    
 
@@ -59,7 +60,7 @@ openstack, k8s, ceph 삭제 가이드
 
 .. attention::
 
-   ::
+
       단, openstack, k8s가 삭제되어야 합니다.
 
 
