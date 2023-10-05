@@ -1,4 +1,4 @@
-자연스러운 노드 종료
+정상적인 노드 종료
 ========================
 
 Kubernetes는 1.21 버전부터 Graceful Node Shutdown 기능을 갖고 있습니다. 
@@ -16,7 +16,7 @@ Kubernetes는 1.21 버전부터 Graceful Node Shutdown 기능을 갖고 있습�
 * https://github.com/kubernetes/kubernetes/issues/110755
 * https://github.com/kubernetes/kubernetes/issues/107158
 
-그래서 우리는 Graceful Node Shutdown Helper (GNSH, pronounce 'gee-en-sh')를 개발하고 burrito 1.2.4에 burrito.gnsh 역할을 추가했습니다.
+그래서 우리는 Graceful Node Shutdown Helper (GNSH, pronounce '지엔쉬')를 개발하고 burrito 1.2.4에 burrito.gnsh 역할을 추가했습니다.
 
 GNSH는 노드가 시작되거나 종료/재부팅될 때 실행되는 짧은 스크립트입니다.
 
@@ -80,18 +80,18 @@ GNSH는 노드가 시작되거나 종료/재부팅될 때 실행되는 짧은 �
 경고(Caveat)
 --------------
 
-테스트한 결과, kubelet 노드 종료 관리자는 systemctl 명령만 입력한 경우 트리거되어 문제가 발생함을 발견했습니다.
+systemctl 명령에 의해서만 kubelet 노드 종료 관리자가 트리거됩니다.
 
-systemctl poweroff
-systemctl reboot
-systemctl halt
+* systemctl poweroff
+* systemctl reboot
+* systemctl halt
 
-다음 명령어는 kubelet 노드 종료 관리자를 트리거하지 않아 적절합니다.
+다음 명령어는 kubelet 노드 종료 관리자를 트리거하지 않습니다. 
 
-shutdown -h now
-shutdown -P now
-poweroff
-reboot
+* shutdown -h now
+* shutdown -P now
+* poweroff
+* reboot
 
 Rocky Linux의 systemd 버전(v239)은 레거시 명령어에 대한 dbus 신호를 방출하지 않으므로 kubelet의 inhibitor가 존중되지 않습니다.
 
