@@ -25,7 +25,7 @@ Burrito 한글 문서
    :maxdepth: 5
 
    컴퓨트 노드 추가 <operation/add_compute_node>
-   자연스러운 노드 종료 <operation/graceful_node_shutdown>
+   정상적인 노드 종료 <operation/graceful_node_shutdown>
    오픈스택 차트 배포 및 삭제 <operation/openstack_chart>
    스토리지 추가 <operation/add_storageclass>
    openstack, k8s, ceph 삭제 <operation/openstack_del>
