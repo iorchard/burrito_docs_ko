@@ -16,7 +16,7 @@ Kubernetes는 1.21 버전부터 Graceful Node Shutdown 기능을 갖고 있습�
 * https://github.com/kubernetes/kubernetes/issues/110755
 * https://github.com/kubernetes/kubernetes/issues/107158
 
-그래서 우리는 Graceful Node Shutdown Helper (GNSH, pronounce '지엔쉬')를 개발하고 burrito 1.2.4에 burrito.gnsh 역할을 추가했습니다.
+그래서 우리는 Graceful Node Shutdown Helper (GNSH, 발음을 '지엔쉬'라고 한다)를 개발하고 burrito 1.2.4에 burrito.gnsh 역할을 추가했습니다.
 
 GNSH는 노드가 시작되거나 종료/재부팅될 때 실행되는 짧은 스크립트입니다.
 
