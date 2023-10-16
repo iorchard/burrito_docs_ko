@@ -432,19 +432,6 @@ vars yml파일을 수정합니다.
 
    $ vi vars.yml
    ---
-   ### common
-   # deploy_ssh_key: (boolean) create ssh keypair and copy it to other nodes.
-   # default: false
-   deploy_ssh_key: false
-
-   """
-   deploy_ssh_key (default: false)
-   true인 경우 배포자 노드에 ssh 키 쌍을 생성하고 공개 키를 다른 노드에 복사합니다. 
-   Ansible은 공개 키를 배포한 후 공개 키를 사용하여 다른 노드에 ssh합니다.
-   false인 경우 ssh 키 쌍을 생성하지 않습니다. 
-   Ansible은 볼트로 암호화된 사용자의 비밀번호를 사용하여 다른 노드로 ssh합니다.
-   """
-   
    ### define network interface names
    # set overlay_iface_name to null if you do not want to set up overlay network.
    # then, only provider network will be set up.
