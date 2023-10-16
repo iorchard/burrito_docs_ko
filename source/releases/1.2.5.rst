@@ -1,0 +1,53 @@
+1.2.4 Aster
+============
+
+이것은 Aster 1.2 시리즈의 다섯 번째 패치입니다.
+
+Notable changes
+----------------
+
+* 배포 유형인 기본 값은 Deployment입니다. cinder-volume 및 glance-api에 StatefulSet 유형을 추가합니다.
+* OpenStack 볼륨을 이미지로 변환하는 작업에서 노드 root file system 사용을 방지하기 위해 cinder-volume 및 glance-api에 PVC를 추가합니다.
+  
+  cinder-volume의 PVC는 /var/lib/cinder/conversion에 마운트되며, glance-api의 PVC는 Nginx 프론트엔드 컨테이너의 /var/cache/nginx/client_temp에 마운트됩니다.
+  
+  PVC 액세스 모드는 기본 저장 백엔드에 따라 설정됩니다.
+
+  기본 저장 백엔드가 netapp이면 PVC 액세스 모드는 ReadWriteMany로 설정되고 cinder-volume 및 glance-api에는 기본 배포 유형이 사용됩니다.
+  기본 저장 백엔드가 ceph 또는 powerflex인 경우 PVC 액세스 모드는 ReadWriteOnce로 설정되고 cinder-volume 및 glance-api에는 StatefulSet 유형이 사용됩니다.
+
+* 보안을 위해 kube-controller-manager와 kube-scheduler를 로컬호스트(127.0.0.1)에 바인딩합니다.
+
+* localrepo 및 레지스트리 haproxy 구성 파일은 cleanup 스크립트(cleanup_k8s.sh)를 실행할 때 제거됩니다. 이는 Kubernetes 클러스터를 cleaning할 때 이미 localrepo 및 레지스트리 파드가 사라졌기 때문입니다.
+
+Burrito Changelog
+------------------
+
+* feature(powerflex): Add until/retries/delay for changing mdm password and sds devices tasks; (jijisa@iorchard.net)
+* feature(powerflex): Create powerflex haproxy LB file instead of add the section in haproxy.cfg.; (jijisa@iorchard.net)
+* fix: typo in Genesis Registry | templating registry haproxy config; (jijisa@iorchard.net)
+* feature: set sysctl file for k8s kernel parameters; (jijisa@iorchard.net)
+* There is no need to set up a custom rsyslog.conf so remove the task from burrito.common playbook.; (jijisa@iorchard.net)
+* adjust rabbitmq PVC size to 10Gib/c 768Mi seems too small.; (jijisa@iorchard.net)
+* change sleep to 20 seconds in gnsh script; (jijisa@iorchard.net)
+* change registry patch task in burrito.genesisregistry; (jijisa@iorchard.net)
+* refactor: move deploy_ssh_key to do-not-edit area and set it to true; (jijisa@iorchard.net)
+* remove LABELS_JSON variable in gnsh script; (jijisa@iorchard.net)
+* remove node delete rule; (jijisa@iorchard.net)
+* feature: add HA tuning parameters; split replicas with quorum_replicas; (jijisa@iorchard.net)
+* feature: add localrepo LB config in localrepo role; (jijisa@iorchard.net)
+* feature: add ceph and kube-apiserver LB config in haproxy; (jijisa@iorchard.net)
+* patch: kube-apiserver bind address to mgmt ip; (jijisa@iorchard.net)
+* feature: add Graceful Node Shutdown Helper (GNSH) role; (jijisa@iorchard.net)
+* feature: add registry.cfg file in genesis registry role; (jijisa@iorchard.net)
+* feature: change bind ip to mgmt ip for kube-apiserver; replace not-ready/unreachable toleration from static to variable; (jijisa@iorchard.net)
+* feature: kube-apiserver LB support in burrito.system role; (jijisa@iorchard.net)
+* feature: change replicas to quorum_replicas in mariadb and rabbitmq; (jijisa@iorchard.net)
+* enhance: change localrepo haproxy config from inline to standalone config file; (jijisa@iorchard.net)
+* feature: move ceph-rgw config to standalone file; (jijisa@iorchard.net)
+* feature: add kube-apiserver LB in haproxy; (jijisa@iorchard.net)
+* enhance: change genesis registry haproxy config from inline to standalone config file; (jijisa@iorchard.net)
+* patch: change resitry to deployment; remove priorityClass; (jijisa@iorchard.net)
+* feature: add gnsh role in landing playbook; (jijisa@iorchard.net)
+* feature: reload haproxy service instead of restarting it; (jijisa@iorchard.net)
+* feature: set openstack rabbitmq queues to quorum; (jijisa@iorchard.net)

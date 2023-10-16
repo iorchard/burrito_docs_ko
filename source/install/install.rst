@@ -631,24 +631,30 @@ group_vars/all/ceph_vars.yml을 수정하고 /dev/sd{b,c,d}를 추가합니다.
 
 netapp이 storage_backends에 있는 경우 group_vars/all/netapp_vars.yml을 수정합니다.
 
-netapp 각각의 변수가 무엇인지 모르는 경우 netapp 엔지니어에게 도움을 구하세요.
-
 ::
 
    $ vi group_vars/all/netapp_vars.yml
    ---
    netapp:
-     - name: netapp1
-       managementLIF: "192.168.100.230"
-       dataLIF: "192.168.140.19"
-       svm: "svm01"
-       username: "admin"
-       password: "<netapp_admin_password>"
-       nfsMountOptions: "nfsvers=4,lookupcache=pos"
-       shares:
-         - /dev03
+  - name: netapp1
+    managementLIF: "192.168.100.230"
+    dataLIF: "192.168.140.19"
+    svm: "svm01"
+    username: "admin"
+    password: "<netapp_admin_password>"
+    nfsMountOptions: "lookupcache=pos"
+    shares:
+      - /dev03
    ...
 
+
+nfsMountOptions에 nfsvers를 추가하여 특정한 NFS 버전을 사용할 수 있습니다.
+
+예를 들어, NFS 버전 4.0을 사용하려면 nfsMountOptions에 nfsvers=4.0을 넣으세요 (nfsMountOptions: "nfsvers=4.0,lookupcache=pos"). 
+
+그런 다음, NetApp NFS 저장소에서 NFS 버전 4가 활성화되어 있는지 확인해야 합니다.
+
+netapp 각각의 변수가 무엇인지 모르는 경우 netapp 엔지니어에게 도움을 구하세요.
 
 powerflex
 ^^^^^^^^^^

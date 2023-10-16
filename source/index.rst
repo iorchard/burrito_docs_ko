@@ -22,18 +22,20 @@ Burrito 한글 문서
 
 .. toctree::
    :caption: 운영
-   :maxdepth: 5
+   :maxdepth: 6
 
    컴퓨트 노드 추가 <operation/add_compute_node>
    정상적인 노드 종료 <operation/graceful_node_shutdown>
+   glance image PV 보존 방법 <operation/preserve_glance>
    오픈스택 차트 배포 및 삭제 <operation/openstack_chart>
    스토리지 추가 <operation/add_storageclass>
    openstack, k8s, ceph 삭제 <operation/openstack_del>
 
 .. toctree::
    :caption: 릴리즈
-   :maxdepth: 5
+   :maxdepth: 6
 
+   releases/1.2.5
    releases/1.2.4
    releases/1.2.3
    releases/1.2.2
