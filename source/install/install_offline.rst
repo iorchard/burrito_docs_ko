@@ -13,7 +13,7 @@ Burrito 오프라인 설치가이드
 
 Burrito ISO를 사용하여 설치합니다.
 
-burrito_iso 프로젝트를 사용하여 직접 Burrito_iso를 만들수 있습니다.
+burrito_iso 프로젝트를 사용하여 나만의 Burrito_iso를 만들수 있습니다.
 
 
 지원 운영체제
@@ -533,9 +533,11 @@ k8s_ha_level
   * node_monitor_grace_period:
     실행 중인 노드가 응답하지 않는 것으로 간주하기 전에 허용되는 시간입니다.
   * not_ready_toleration_seconds:
-    이미 해당 관용구를 가지고 있지 않은 모든 포드에 기본적으로 추가되는 notReady:NoExecute 관용구의 관용 기간입니다.
+    notReady:NoExecute에 대한 허용성을 나타내는 tolerationSeconds로, 기본적으로 해당 허용성이 없는
+    모든 파드에 추가 됩니다.
   * unreachable_toleration_seconds:
-    도달할 수 없는:NoExecute 관용구에 기본적으로 추가되는 관용구의 관용 기간입니다??
+    unreachable:NoExecute에 대한 허용성을 나타내는 tolerationSeconds로, 기본적으로
+    해당 허용성이 없는 모든 파드에 추가됩니다.
   * kubelet_shutdown_grace_period:
     노드가 종료를 지연해야 하는 총 시간입니다.
   * kubelet_shutdown_grace_period_critical_pods:
