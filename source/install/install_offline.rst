@@ -14,6 +14,7 @@ Burrito 오프라인 설치가이드
 Burrito ISO를 사용하여 설치합니다.
 
 burrito_iso 프로젝트를 사용하여 나만의 Burrito_iso를 만들수 있습니다.
+(https://github.com/iorchard/burrito_iso).
 
 
 지원 운영체제
@@ -24,11 +25,11 @@ burrito_iso 프로젝트를 사용하여 나만의 Burrito_iso를 만들수 있�
 시스템 사양
 --------------
 
-Burrito를 설치하기 위한 최소 시스템 요구사양입니다.
+Burrito를 설치하기 위한 **최소** 시스템 요구사양입니다.
 
 ========= ========= =========== ========= ===========
 node role CPU (ea)  Memory (GB) Disk (GB) Extra Disks
---------- --------- ----------- --------- -----------
+========= ========= =========== ========= ===========
 control   8         16          50        N/A        
 --------- --------- ----------- --------- -----------
 compute   4         8           50        N/A        
@@ -84,7 +85,8 @@ storage3                .108                                     .108
 
 * 운영체제는 Burrito ISO를 사용하여 설치합니다.
 * control 그룹의 첫번째 노드는 서버를 구성하는 노드입니다.
-* 모든 노드의 Ansible 사용자는 sudo 권한을 가지고 있습니다. 이 문서의 ansible 유저는 clex 입니다.
+* 모든 노드의 Ansible 사용자는 sudo 권한을 가지고 있습니다.
+  이 문서의 ansible 유저는 `clex` 입니다.
 * 모든 노드는 배포 노드의 /etc/hosts 에 있어야 합니다.
 
 아래는 배포 노드의 /etc/hosts 예시입니다.
