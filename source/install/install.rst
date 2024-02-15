@@ -109,12 +109,11 @@ prepare.sh 스크립트를 실행합니다.::
 
 There are 4 groups of hosts in burrito.
 
-* Control node: runs kubernetes and openstack control-plane components.
-* Network node: runs kubernetes worker and openstack network services.
-* Compute node: runs kubernetes worker and openstack hypervisor and network
-  agent to operate instances.
-* Storage node: runs Ceph storage services - monitor, manager, osd, 
-  rados gateway.
+* 컨트롤 노드(Control Node): 쿠버네티스 및 오픈스택 제어 플레인 구성요소를 실행
+* 네트워크 노드(Network Node): 쿠버네티스 워커 및 오픈스택 네트워크 서비스를 실행
+* 컴퓨팅 노드(Compute Node): 쿠버네티스 워커 및 오픈스택 하이퍼바이저와 인스턴스를 운영하기 위한
+  네트워크 에이전트를 실행
+* 스토리지 노드(Storage Node): Ceph 스토리지 서비스인 monitor, manager, osd, rados gateway를 실행
 
 네트워크 노드는 선택사항입니다.
 컨트롤 노드는 컨트롤 노드와 네트워크 노드 역할을 모두 수행합니다.
@@ -385,9 +384,9 @@ Edit vars.yml
    # powerflex: powerflex 설정은 group_vars/all/powerflex_vars.yml 에 있습니다.
    # hitachi: hitachi 설정은 group_vars/all/hitachi_vars.yml 에 있습니다.
    
-   ###################################################
+   #################################################
    ## 전문가가 아니라면 아래를 편집하지 마세요!!!  #
-   ###################################################
+   #################################################
 
 각 변수의 설명
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
