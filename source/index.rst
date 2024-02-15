@@ -35,6 +35,7 @@ Burrito 한글 문서
    :caption: 릴리즈
    :maxdepth: 6
 
+   releases/1.3.2
    releases/1.2.5
    releases/1.2.4
    releases/1.2.3
